@@ -50,7 +50,7 @@ pre {
   grid-template-columns: 1fr 1fr 1fr;
   grid-template-rows: 1fr 1fr 1fr;
 
-  gap: 12px;
+  gap: 1vw;
 
   max-width: 30vw;
   max-height: fit-content;
@@ -60,8 +60,7 @@ pre {
   grid-area: book;
   width: fit-content;
   height: fit-content;
-  padding: 12px;
-  border-radius: 12px;
+  padding: 1vw;
 }
 
 #main-wrapper {
@@ -84,7 +83,11 @@ pre {
   grid-template-columns: 1fr 1fr;
   grid-template-rows: auto auto 1fr;
 
-  gap: 24px;
+  gap: 2vw;
+}
+
+button {
+  padding: 0.5vw;
 }
 
 body {
