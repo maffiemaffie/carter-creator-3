@@ -1,0 +1,60 @@
+#canvas-container {
+  width: 100%;
+  height: 50vh;
+
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px
+}
+
+canvas {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  image-rendering: pixelated;
+  background: conic-gradient(#ddd 25%, #bbb 0 50%, #ddd 0 75%, #bbb 0);
+  background-size: 32px 32px;
+}
+
+#carter-examples {
+  width: 100%;
+  height: 200px;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+#wrapper {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+  gap: 0;
+}
+
+pre {
+  letter-spacing: -0.05em;
+  font-size: xx-small;
+  white-space: pre-wrap;
+  word-break: break-all;
+  user-select: all;
+}
+
+#main-carter {
+  display: block;
+  width: 50vw;
+  height: 50vh;
+}
+
+.feature-page {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr 1fr;
+
+  max-width: 30vw;
+  max-height: fit-content;
+}
+
+#carter-builder {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
