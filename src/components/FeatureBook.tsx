@@ -6,8 +6,7 @@ import {
   type Offset,
 } from "../cart-layer";
 import CarterExample from "./CarterExample";
-import { WHITE_CARTER_BASE_COLOR } from "../carter-constants";
-import whiteCarter from "../assets/carters/white-carter-base.png";
+import { BASE_CARTERS, WHITE_CARTER_BASE_COLOR } from "../carter-constants";
 
 type FeatureBookProps = {
   featuresPath: string;
@@ -40,14 +39,11 @@ export default function FeatureBook({
         },
       ];
 
-      const allFeatures = import.meta.glob("../assets/**/*.json");
+      const allFeatures = import.meta.glob("../assets/features/*.json");
 
-      for (const path of Object.keys(allFeatures)) {
-        if (!path.startsWith(`../assets/features/${featuresPath}`)) continue;
-
-        const feature = (await allFeatures[path]()) as CartFeature;
-        loadedFeatures.push(feature);
-      }
+      const features = (await allFeatures[`../assets/features/${featuresPath}.json`]()) as {default: CartFeature[]};
+      
+      loadedFeatures.push(...features.default);
 
       setFeatures(loadedFeatures);
     };
@@ -102,7 +98,7 @@ export default function FeatureBook({
           >
             <CarterExample
               baseColor={WHITE_CARTER_BASE_COLOR}
-              baseUrl={whiteCarter}
+              baseImage={BASE_CARTERS.white.baseImage}
               layers={{
                 [stackSlotName]: {
                   userOffset,

@@ -3,6 +3,7 @@ import whiteCarter from "./assets/carters/white-carter-base.png";
 import tanCarter from "./assets/carters/tan-carter-base.png";
 import brownCarter from "./assets/carters/brown-carter-base.png";
 import blackCarter from "./assets/carters/black-carter-base.png";
+import { loadImagePromise } from "./image-loader";
 
 export const WHITE_CARTER_BASE_COLOR = Object.freeze({
   r: 221,
@@ -32,27 +33,36 @@ export const BLACK_CARTER_BASE_COLOR = Object.freeze({
   a: 255,
 });
 
+export const BASE_CARTER_IMAGES: {
+  [key: string]: HTMLImageElement;
+} = Object.freeze({
+  white: await loadImagePromise(whiteCarter),
+  tan: await loadImagePromise(tanCarter),
+  brown: await loadImagePromise(brownCarter),
+  black: await loadImagePromise(blackCarter),
+});
+
 export const BASE_CARTERS: {
   [key: string]: {
     baseColor: RGBAColor;
-    baseUrl: string;
+    baseImage: HTMLImageElement;
   };
 } = Object.freeze({
   white: {
     baseColor: WHITE_CARTER_BASE_COLOR,
-    baseUrl: whiteCarter,
+    baseImage: BASE_CARTER_IMAGES.white,
   },
   tan: {
     baseColor: TAN_CARTER_BASE_COLOR,
-    baseUrl: tanCarter,
+    baseImage: BASE_CARTER_IMAGES.tan,
   },
   brown: {
     baseColor: BROWN_CARTER_BASE_COLOR,
-    baseUrl: brownCarter,
+    baseImage: BASE_CARTER_IMAGES.brown,
   },
   black: {
     baseColor: BLACK_CARTER_BASE_COLOR,
-    baseUrl: blackCarter,
+    baseImage: BASE_CARTER_IMAGES.black,
   },
 });
 

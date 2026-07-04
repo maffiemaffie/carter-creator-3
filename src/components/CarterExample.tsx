@@ -1,39 +1,39 @@
 import { useEffect, useRef } from "react";
-import type { CartLayer, CartLayerStack, RGBAColor } from "../cart-layer";
-import { loadImage } from "../image-loader";
+import type { CartLayerStack, RGBAColor } from "../cart-layer";
 import { CART_STACK_ORDER } from "../cart-layer";
 
 type CarterExampleProps = {
   baseColor: RGBAColor;
-  baseUrl: string;
+  baseImage: HTMLImageElement;
   layers: CartLayerStack;
 };
 
 export default function CarterExample({
   baseColor,
-  baseUrl,
+  baseImage,
   layers,
 }: CarterExampleProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
-  const baseImage = useRef<HTMLImageElement>(null);
-
-  const drawBase = () => {
-    const base = baseImage.current;
-
-    if (!base) return;
-    const canvas = canvasRef.current!;
-    const context = canvas.getContext("2d")!;
-
-    canvas.width = base.width;
-    canvas.height = base.height;
-    context.clearRect(0, 0, base.width, base.height);
-    context.drawImage(base, 0, 0);
-  };
-
   useEffect(() => {
-    const drawOverlay = (layer?: CartLayer) => {
-      if (!layer || !baseImage.current) return;
+    const drawBase = () => {
+      const base = baseImage;
+
+      if (!base) return;
+      const canvas = canvasRef.current!;
+      const context = canvas.getContext("2d")!;
+
+      canvas.width = base.width;
+      canvas.height = base.height;
+      context.clearRect(0, 0, base.width, base.height);
+      context.drawImage(base, 0, 0);
+    };
+
+    drawBase();
+
+    for (const name of CART_STACK_ORDER) {
+      const layer = layers[name as keyof CartLayerStack]
+      if (!layer || !baseImage) continue;
 
       const { userOffset, overlay } = layer;
 
@@ -82,17 +82,8 @@ export default function CarterExample({
         overlayCanvas.width,
         overlayCanvas.height,
       );
-    };
-
-    loadImage(baseUrl, (image) => {
-      baseImage.current = image;
-      drawBase();
-
-      for (const layer of CART_STACK_ORDER) {
-        drawOverlay(layers[layer as keyof CartLayerStack]);
-      }
-    });
-  }, [baseUrl, layers, baseColor]);
+    }
+  }, [baseImage, layers, baseColor]);
 
   return <canvas id="white-carter-example" ref={canvasRef}></canvas>;
 }

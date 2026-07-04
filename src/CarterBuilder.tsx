@@ -8,8 +8,7 @@ import {
   type RGBAColor,
 } from "./cart-layer";
 import CarterExample from "./components/CarterExample";
-import { FEATURE_NAMES, WHITE_CARTER_BASE_COLOR } from "./carter-constants";
-import whiteCarter from "./assets/carters/white-carter-base.png";
+import { BASE_CARTERS, FEATURE_NAMES } from "./carter-constants";
 import ChangeBase from "./components/ChangeBase";
 
 export default function CarterBuilder() {
@@ -22,11 +21,8 @@ export default function CarterBuilder() {
   >(null);
   const [selectedBase, setSelectedBase] = useState<{
     baseColor: RGBAColor;
-    baseUrl: string;
-  }>({
-    baseColor: WHITE_CARTER_BASE_COLOR,
-    baseUrl: whiteCarter,
-  });
+    baseImage: HTMLImageElement;
+  }>(BASE_CARTERS.white);
 
   const setStackLayer = (
     slotName: keyof CartLayerStack,
@@ -57,65 +53,64 @@ export default function CarterBuilder() {
   return (
     <>
       <div id="carter-builder">
+        <h1>Carter Creator 3 1.0.0-alpha</h1>
         <div id="main-carter">
           <CarterExample
             baseColor={selectedBase.baseColor}
-            baseUrl={selectedBase.baseUrl}
+            baseImage={selectedBase.baseImage}
             layers={selectedFeatures}
           />
         </div>
-        <div>
-          <div>
+        <nav>
+          <input
+            type="button"
+            value={"bases"}
+            onClick={() => {
+              setSelectedFeaturesPath(null);
+              setSelectedStackSlotName(null);
+            }}
+            disabled={selectedStackSlotName === null}
+          />
+          {CART_STACK_ORDER.map((feature) => (
             <input
+              key={feature}
               type="button"
-              value={"bases"}
+              value={FEATURE_NAMES[feature].path}
               onClick={() => {
-                setSelectedFeaturesPath(null);
-                setSelectedStackSlotName(null);
+                setSelectedFeaturesPath(FEATURE_NAMES[feature].path);
+                setSelectedStackSlotName(
+                  FEATURE_NAMES[feature].slotName as keyof CartLayerStack,
+                );
               }}
-              disabled={selectedStackSlotName === null}
+              disabled={
+                selectedStackSlotName === FEATURE_NAMES[feature].slotName
+              }
             />
-            {CART_STACK_ORDER.map((feature) => (
-              <input
-                key={feature}
-                type="button"
-                value={FEATURE_NAMES[feature].path}
-                onClick={() => {
-                  setSelectedFeaturesPath(FEATURE_NAMES[feature].path);
-                  setSelectedStackSlotName(
-                    FEATURE_NAMES[feature].slotName as keyof CartLayerStack,
-                  );
-                }}
-                disabled={
-                  selectedStackSlotName === FEATURE_NAMES[feature].slotName
+          ))}
+        </nav>
+        <form id="features-book">
+          {selectedStackSlotName === null && (
+            <ChangeBase onBaseSelect={(base) => setSelectedBase(base)} />
+          )}
+          {selectedStackSlotName !== null && selectedFeaturesPath !== null && (
+            <FeatureBook
+              featuresPath={selectedFeaturesPath}
+              stackSlotName={selectedStackSlotName}
+              userOffset={
+                selectedFeatures[selectedStackSlotName]?.userOffset ?? {
+                  x: 0,
+                  y: 0,
                 }
-              />
-            ))}
-          </div>
-          <div>
-            {selectedStackSlotName === null && (
-              <ChangeBase onBaseSelect={(base) => setSelectedBase(base)} />
-            )}
-            {selectedStackSlotName !== null && selectedFeaturesPath !== null && (
-              <FeatureBook
-                featuresPath={selectedFeaturesPath}
-                stackSlotName={selectedStackSlotName}
-                userOffset={
-                  selectedFeatures[selectedStackSlotName]?.userOffset ?? {
-                    x: 0,
-                    y: 0,
-                  }
-                }
-                onFeatureSelect={(overlay) =>
-                  setStackLayer(selectedStackSlotName, overlay)
-                }
-                onUpdatePosition={(newPosition) =>
-                  updateFeaturePosition(selectedStackSlotName, newPosition)
-                }
-              />
-            )}
-          </div>
-        </div>
+              }
+              onFeatureSelect={(overlay) =>
+                setStackLayer(selectedStackSlotName, overlay)
+              }
+              onUpdatePosition={(newPosition) =>
+                updateFeaturePosition(selectedStackSlotName, newPosition)
+              }
+            />
+          )}
+        </form>
       </div>
     </>
   );

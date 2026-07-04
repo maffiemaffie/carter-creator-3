@@ -5,9 +5,9 @@ import "./App.css";
 export default function App() {
   return (
     <>
-      <h1>Carter Creator 3 1.0.0-alpha</h1>
-      <CarterBuilder />
-      <br />
+      <div id="main-wrapper">
+        <CarterBuilder />
+      </div>
       {/* <OverlayEditor /> */}
     </>
   );

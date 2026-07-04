@@ -4,7 +4,7 @@
 
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 10px
+  gap: 10px;
 }
 
 canvas {
@@ -41,8 +41,8 @@ pre {
 
 #main-carter {
   display: block;
-  width: 50vw;
-  height: 50vh;
+  width: 100%;
+  grid-area: carter;
 }
 
 .feature-page {
@@ -50,11 +50,51 @@ pre {
   grid-template-columns: 1fr 1fr 1fr;
   grid-template-rows: 1fr 1fr 1fr;
 
+  gap: 12px;
+
   max-width: 30vw;
   max-height: fit-content;
 }
 
+#features-book {
+  grid-area: book;
+  width: fit-content;
+  height: fit-content;
+  padding: 12px;
+  border-radius: 12px;
+}
+
+#main-wrapper {
+  display: grid;
+  align-items: center;
+  justify-content: center;
+}
+
 #carter-builder {
   display: grid;
+  grid-template-areas:
+    "header header"
+    "nav nav"
+    "carter book";
+
+  width: 100vw;
+  max-width: 1024px;
+  height: 95vh;
+
   grid-template-columns: 1fr 1fr;
+  grid-template-rows: auto auto 1fr;
+
+  gap: 24px;
+}
+
+body {
+  margin: 0;
+}
+
+nav {
+  grid-area: nav;
+}
+
+h1 {
+  grid-area: header;
 }
