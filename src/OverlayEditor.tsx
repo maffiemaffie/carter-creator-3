@@ -1,8 +1,4 @@
 import "./App.css";
-import whiteCarter from "./assets/carters/white-carter-base.png";
-import tanCarter from "./assets/carters/tan-carter-base.png";
-import brownCarter from "./assets/carters/brown-carter-base.png";
-import blackCarter from "./assets/carters/black-carter-base.png";
 import { useRef, useState } from "react";
 import CarterExample from "./components/CarterExample";
 import type { CartOverlay } from "./cart-layer";
@@ -11,6 +7,7 @@ import {
   BLACK_CARTER_BASE_COLOR,
   BROWN_CARTER_BASE_COLOR,
   TAN_CARTER_BASE_COLOR,
+  BASE_CARTERS,
 } from "./carter-constants";
 
 export default function OverlayEditor() {
@@ -213,22 +210,22 @@ export default function OverlayEditor() {
           <div id="carter-examples">
             <CarterExample
               baseColor={WHITE_CARTER_BASE_COLOR}
-              baseUrl={whiteCarter}
+              baseImage={BASE_CARTERS.white.baseImage}
               layers={{ fx: { userOffset: { x: 0, y: 0 }, overlay: overlay! } }}
             />
             <CarterExample
               baseColor={TAN_CARTER_BASE_COLOR}
-              baseUrl={tanCarter}
+              baseImage={BASE_CARTERS.tan.baseImage}
               layers={{ fx: { userOffset: { x: 0, y: 0 }, overlay: overlay! } }}
             />
             <CarterExample
               baseColor={BROWN_CARTER_BASE_COLOR}
-              baseUrl={brownCarter}
+              baseImage={BASE_CARTERS.brown.baseImage}
               layers={{ fx: { userOffset: { x: 0, y: 0 }, overlay: overlay! } }}
             />
             <CarterExample
               baseColor={BLACK_CARTER_BASE_COLOR}
-              baseUrl={blackCarter}
+              baseImage={BASE_CARTERS.black.baseImage}
               layers={{ fx: { userOffset: { x: 0, y: 0 }, overlay: overlay! } }}
             />
           </div>
