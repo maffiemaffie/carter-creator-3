@@ -33,7 +33,7 @@ export default function CarterExample({
 
     for (const name of CART_STACK_ORDER) {
       const layer = layers[name as keyof CartLayerStack]
-      if (!layer || !baseImage) continue;
+      if (!layer || !baseImage || !layer.overlay) continue;
 
       const { userOffset, overlay } = layer;
 
