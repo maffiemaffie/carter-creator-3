@@ -14,11 +14,12 @@ import ChangeBase from "./components/ChangeBase";
 
 export default function CarterBuilder() {
   const [selectedFeatures, setSelectedFeatures] = useState<CartLayerStack>({});
-  const [selectedFeaturesPath, setSelectedFeaturesPath] =
-    useState<string>("eyes");
+  const [selectedFeaturesPath, setSelectedFeaturesPath] = useState<
+    string | null
+  >(null);
   const [selectedStackSlotName, setSelectedStackSlotName] = useState<
     keyof CartLayerStack | null
-  >("eyes");
+  >(null);
   const [selectedBase, setSelectedBase] = useState<{
     baseColor: RGBAColor;
     baseUrl: string;
@@ -69,10 +70,10 @@ export default function CarterBuilder() {
               type="button"
               value={"bases"}
               onClick={() => {
-                setSelectedFeaturesPath("bases");
+                setSelectedFeaturesPath(null);
                 setSelectedStackSlotName(null);
               }}
-              disabled={selectedFeaturesPath === "bases"}
+              disabled={selectedStackSlotName === null}
             />
             {CART_STACK_ORDER.map((feature) => (
               <input
@@ -95,7 +96,7 @@ export default function CarterBuilder() {
             {selectedStackSlotName === null && (
               <ChangeBase onBaseSelect={(base) => setSelectedBase(base)} />
             )}
-            {selectedStackSlotName !== null && (
+            {selectedStackSlotName !== null && selectedFeaturesPath !== null && (
               <FeatureBook
                 featuresPath={selectedFeaturesPath}
                 stackSlotName={selectedStackSlotName}
