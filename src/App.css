@@ -145,6 +145,12 @@ nav > input {
 h1 {
   grid-area: header;
   margin-bottom: 0;
+  font-size: large;
+}
+
+legend {
+  font-size: large;
+  font-weight: normal;
 }
 
 #offset-buttons {
@@ -157,14 +163,14 @@ h1 {
   font-size: larger;
 }
 
-#offset-buttons > input:nth-child(1),
-#offset-buttons > input:nth-child(3) {
+#offset-buttons > input:nth-child(2),
+#offset-buttons > input:nth-child(4) {
   width: 75%;
   justify-self: right;
 }
 
-#offset-buttons > input:nth-child(2),
-#offset-buttons > input:nth-child(4) {
+#offset-buttons > input:nth-child(3),
+#offset-buttons > input:nth-child(5) {
   width: 75%;
   justify-self: left;
 }

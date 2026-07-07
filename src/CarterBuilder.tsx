@@ -108,6 +108,8 @@ export default function CarterBuilder() {
               onUpdatePosition={(newPosition) =>
                 updateFeaturePosition(selectedStackSlotName, newPosition)
               }
+              baseColor={selectedBase.baseColor}
+              baseImage={selectedBase.baseImage}
             />
           )}
         </form>

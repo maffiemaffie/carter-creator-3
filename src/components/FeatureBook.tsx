@@ -4,9 +4,9 @@ import {
   type CartLayerStack,
   type CartOverlay,
   type Offset,
+  type RGBAColor,
 } from "../cart-layer";
 import CarterExample from "./CarterExample";
-import { BASE_CARTERS, WHITE_CARTER_BASE_COLOR } from "../carter-constants";
 
 type FeatureBookProps = {
   featuresPath: string;
@@ -14,6 +14,8 @@ type FeatureBookProps = {
   userOffset: Offset;
   onFeatureSelect: (overlay: CartOverlay) => void;
   onUpdatePosition: (offset: Offset) => void;
+  baseColor: RGBAColor;
+  baseImage: HTMLImageElement;
 };
 
 export default function FeatureBook({
@@ -22,6 +24,8 @@ export default function FeatureBook({
   userOffset,
   onFeatureSelect,
   onUpdatePosition,
+  baseColor,
+  baseImage
 }: FeatureBookProps) {
   const [features, setFeatures] = useState<CartFeature[]>([]);
   const [page, setPage] = useState<number>(0);
@@ -78,12 +82,14 @@ export default function FeatureBook({
   return (
     <>
       <fieldset id="offset-buttons">
+        <legend>Move Feature:</legend>
         <input type="button" value="◀️" onClick={() => shiftFeature("left")} />
         <input type="button" value="▶️" onClick={() => shiftFeature("right")} />
         <input type="button" value="🔼" onClick={() => shiftFeature("up")} />
         <input type="button" value="🔽" onClick={() => shiftFeature("down")} />
       </fieldset>
       <fieldset id="page-tabs">
+        <legend>Page:</legend>
         {Array.from({ length: Math.ceil(features.length / 9) }).map(
           (_, index) => (
             <input
@@ -104,8 +110,8 @@ export default function FeatureBook({
             onClick={() => onFeatureSelect(feature.overlay)}
           >
             <CarterExample
-              baseColor={WHITE_CARTER_BASE_COLOR}
-              baseImage={BASE_CARTERS.white.baseImage}
+              baseColor={baseColor}
+              baseImage={baseImage}
               layers={{
                 [stackSlotName]: {
                   userOffset,
