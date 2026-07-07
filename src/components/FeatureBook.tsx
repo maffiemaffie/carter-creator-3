@@ -41,11 +41,14 @@ export default function FeatureBook({
 
       const allFeatures = import.meta.glob("../assets/features/*.json");
 
-      const features = (await allFeatures[`../assets/features/${featuresPath}.json`]()) as {default: CartFeature[]};
-      
+      const features = (await allFeatures[
+        `../assets/features/${featuresPath}.json`
+      ]()) as { default: CartFeature[] };
+
       loadedFeatures.push(...features.default);
 
       setFeatures(loadedFeatures);
+      setPage(0);
     };
 
     loadFeatures();
@@ -74,21 +77,25 @@ export default function FeatureBook({
 
   return (
     <>
-      <input type="button" value="<" onClick={() => shiftFeature("left")} />
-      <input type="button" value=">" onClick={() => shiftFeature("right")} />
-      <input type="button" value="^" onClick={() => shiftFeature("up")} />
-      <input type="button" value="v" onClick={() => shiftFeature("down")} />
-      {Array.from({ length: Math.ceil(features.length / 9) }).map(
-        (_, index) => (
-          <input
-            key={index + 1}
-            type="button"
-            value={index + 1}
-            onClick={() => setPage(index)}
-            disabled={page === index}
-          />
-        ),
-      )}
+      <fieldset id="offset-buttons">
+        <input type="button" value="◀️" onClick={() => shiftFeature("left")} />
+        <input type="button" value="▶️" onClick={() => shiftFeature("right")} />
+        <input type="button" value="🔼" onClick={() => shiftFeature("up")} />
+        <input type="button" value="🔽" onClick={() => shiftFeature("down")} />
+      </fieldset>
+      <fieldset id="page-tabs">
+        {Array.from({ length: Math.ceil(features.length / 9) }).map(
+          (_, index) => (
+            <input
+              key={index + 1}
+              type="button"
+              value={index + 1}
+              onClick={() => setPage(index)}
+              disabled={page === index}
+            />
+          ),
+        )}
+      </fieldset>
       <div className="feature-page">
         {features.slice(page * 9, (page + 1) * 9).map((feature) => (
           <button

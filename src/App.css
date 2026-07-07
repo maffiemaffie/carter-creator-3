@@ -1,3 +1,16 @@
+@import url("https://fonts.googleapis.com/css2?family=Alan+Sans:wght@300..900&display=swap");
+
+body,
+button,
+input {
+  font-family: "Alan Sans", Helvetica, sans-serif;
+}
+
+fieldset {
+  border: none;
+  box-sizing: border-box;
+}
+
 #canvas-container {
   width: 100%;
   height: 50vh;
@@ -52,15 +65,26 @@ pre {
 
   gap: 1vw;
 
-  max-width: 30vw;
-  max-height: fit-content;
+  grid-area: features;
 }
 
 #features-book {
   grid-area: book;
-  width: fit-content;
-  height: fit-content;
+  width: 100%;
   padding: 1vw;
+  box-sizing: border-box;
+
+  display: grid;
+  grid-template-areas: 
+  "tabs"
+  "features"
+  "controls";
+
+  grid-template-rows: auto 1fr auto;
+}
+
+#page-tabs {
+  grid-area: tabs;
 }
 
 #main-wrapper {
@@ -78,7 +102,7 @@ pre {
 
   width: 100vw;
   max-width: 1024px;
-  height: 95vh;
+  height: 90vh;
 
   grid-template-columns: 1fr 1fr;
   grid-template-rows: auto auto 1fr;
@@ -90,6 +114,12 @@ button {
   padding: 0.5vw;
   border-radius: 0.5vw;
   border-style: none;
+  box-sizing: border-box;
+}
+
+input,
+button {
+  font-size: medium;
 }
 
 button:hover > canvas {
@@ -102,9 +132,39 @@ body {
 }
 
 nav {
+  display: flex;
+  flex-flow: row nowrap;
   grid-area: nav;
+}
+
+nav > input {
+  flex-grow: 1;
+  padding: 1em 0;
 }
 
 h1 {
   grid-area: header;
+  margin-bottom: 0;
+}
+
+#offset-buttons {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-area: controls;
+}
+
+#offset-buttons > input {
+  font-size: larger;
+}
+
+#offset-buttons > input:nth-child(1),
+#offset-buttons > input:nth-child(3) {
+  width: 75%;
+  justify-self: right;
+}
+
+#offset-buttons > input:nth-child(2),
+#offset-buttons > input:nth-child(4) {
+  width: 75%;
+  justify-self: left;
 }
