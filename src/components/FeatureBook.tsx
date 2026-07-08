@@ -83,10 +83,10 @@ export default function FeatureBook({
     <>
       <fieldset id="offset-buttons">
         <legend>Move Feature:</legend>
-        <input type="button" value="◀️" onClick={() => shiftFeature("left")} />
-        <input type="button" value="▶️" onClick={() => shiftFeature("right")} />
-        <input type="button" value="🔼" onClick={() => shiftFeature("up")} />
-        <input type="button" value="🔽" onClick={() => shiftFeature("down")} />
+        <button type="button" onClick={() => shiftFeature("left")} >◀️</button>
+        <button type="button" onClick={() => shiftFeature("right")} >▶️</button>
+        <button type="button" onClick={() => shiftFeature("up")} >🔼</button>
+        <button type="button" onClick={() => shiftFeature("down")} >🔽</button>
       </fieldset>
       <fieldset id="page-tabs">
         <legend>Page:</legend>

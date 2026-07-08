@@ -134,14 +134,13 @@ button {
   box-sizing: border-box;
 }
 
+button:hover:not(:disabled) {
+  filter: brightness(75%);
+}
+
 input,
 button {
   font-size: medium;
-}
-
-button:hover > canvas {
-  background: conic-gradient(#bbb 25%, #999 0 50%, #bbb 0 75%, #999 0);
-  background-size: 32px 32px;
 }
 
 body {
@@ -189,20 +188,45 @@ legend {
   grid-area: controls;
 }
 
-#offset-buttons > input {
-  font-size: larger;
-}
-
-#offset-buttons > input:nth-child(2),
-#offset-buttons > input:nth-child(4) {
+#offset-buttons > button:nth-child(2),
+#offset-buttons > button:nth-child(4) {
   width: 75%;
+  max-width: 10vh;
   justify-self: right;
 }
 
-#offset-buttons > input:nth-child(3),
-#offset-buttons > input:nth-child(5) {
+#offset-buttons > button:nth-child(3),
+#offset-buttons > button:nth-child(5) {
   width: 75%;
+  max-width: 10vh;
   justify-self: left;
+}
+
+#offset-buttons > button:nth-child(2) {
+  background-image: url(../public/button-icons/pointer-left.svg);
+}
+
+#offset-buttons > button:nth-child(3) {
+  background-image: url(../public/button-icons/pointer-right.svg);
+}
+
+#offset-buttons > button:nth-child(4) {
+  background-image: url(../public/button-icons/pointer-up.svg);
+}
+
+#offset-buttons > button:nth-child(5) {
+  background-image: url(../public/button-icons/pointer-down.svg);
+}
+
+
+#offset-buttons > button {
+  background-position: 50% 50%;
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-origin: content-box;
+  aspect-ratio: 1;
+  color: transparent;
+  padding: 1vw;
 }
 
 nav > button:before {
