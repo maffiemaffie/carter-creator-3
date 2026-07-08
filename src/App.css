@@ -163,6 +163,13 @@ nav > button {
   align-items: center;
 
   font-size: small;
+
+  background-color: gray;
+}
+
+nav > button:disabled {
+  background-color: dimgray;
+  color: unset;
 }
 
 h1 {
