@@ -186,6 +186,7 @@ legend {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr;
   grid-area: controls;
+  gap: 0.5vw
 }
 
 #offset-buttons > button:nth-child(2),
