@@ -62,20 +62,22 @@ export default function CarterBuilder() {
           />
         </div>
         <nav>
-          <input
+          <button
             type="button"
-            value={"bases"}
+            id="bases-button"
             onClick={() => {
               setSelectedFeaturesPath(null);
               setSelectedStackSlotName(null);
             }}
             disabled={selectedStackSlotName === null}
-          />
+          >
+            bases
+          </button>
           {CART_STACK_ORDER.map((feature) => (
-            <input
+            <button
               key={feature}
+              id={`${feature}-button`}
               type="button"
-              value={FEATURE_NAMES[feature].path}
               onClick={() => {
                 setSelectedFeaturesPath(FEATURE_NAMES[feature].path);
                 setSelectedStackSlotName(
@@ -85,7 +87,9 @@ export default function CarterBuilder() {
               disabled={
                 selectedStackSlotName === FEATURE_NAMES[feature].slotName
               }
-            />
+            >
+              {FEATURE_NAMES[feature].path}
+            </button>
           ))}
         </nav>
         <form id="features-book">
