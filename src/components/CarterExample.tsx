@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, type RefObject } from "react";
 import type { CartLayerStack, RGBAColor } from "../cart-layer";
 import { CART_STACK_ORDER } from "../cart-layer";
 
@@ -6,12 +6,14 @@ type CarterExampleProps = {
   baseColor: RGBAColor;
   baseImage: HTMLImageElement;
   layers: CartLayerStack;
+  externalCanvasRef?: RefObject<HTMLCanvasElement | null>;
 };
 
 export default function CarterExample({
   baseColor,
   baseImage,
   layers,
+  externalCanvasRef,
 }: CarterExampleProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
@@ -20,7 +22,7 @@ export default function CarterExample({
       const base = baseImage;
 
       if (!base) return;
-      const canvas = canvasRef.current!;
+      const canvas = externalCanvasRef?.current ?? canvasRef.current!;
       const context = canvas.getContext("2d")!;
 
       canvas.width = base.width;
@@ -32,12 +34,12 @@ export default function CarterExample({
     drawBase();
 
     for (const name of CART_STACK_ORDER) {
-      const layer = layers[name as keyof CartLayerStack]
+      const layer = layers[name as keyof CartLayerStack];
       if (!layer || !baseImage || !layer.overlay) continue;
 
       const { userOffset, overlay } = layer;
 
-      const canvas = canvasRef.current!;
+      const canvas = externalCanvasRef?.current ?? canvasRef.current!;
       const context = canvas.getContext("2d")!;
 
       const overlayCanvas = document.createElement("canvas");
@@ -83,7 +85,12 @@ export default function CarterExample({
         overlayCanvas.height,
       );
     }
-  }, [baseImage, layers, baseColor]);
+  }, [baseImage, layers, baseColor, externalCanvasRef]);
 
-  return <canvas id="white-carter-example" ref={canvasRef}></canvas>;
+  return (
+    <canvas
+      id="white-carter-example"
+      ref={externalCanvasRef ?? canvasRef}
+    ></canvas>
+  );
 }

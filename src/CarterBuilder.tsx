@@ -10,6 +10,7 @@ import {
 import CarterExample from "./components/CarterExample";
 import { BASE_CARTERS, FEATURE_NAMES } from "./carter-constants";
 import ChangeBase from "./components/ChangeBase";
+import CopyCarter from "./CopyCarter";
 
 export default function CarterBuilder() {
   const [selectedFeatures, setSelectedFeatures] = useState<CartLayerStack>({});
@@ -60,6 +61,7 @@ export default function CarterBuilder() {
             baseImage={selectedBase.baseImage}
             layers={selectedFeatures}
           />
+          <CopyCarter selectedBase={selectedBase} selectedFeatures={selectedFeatures} />
         </div>
         <nav>
           <button
