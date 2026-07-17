@@ -13,6 +13,7 @@ import ChangeBase from "./components/ChangeBase";
 import CopyCarter from "./CopyCarter";
 
 export default function CarterBuilder() {
+  const [openNavbar, setOpenNavbar] = useState<boolean>(false);
   const [selectedFeatures, setSelectedFeatures] = useState<CartLayerStack>({});
   const [selectedFeaturesPath, setSelectedFeaturesPath] = useState<
     string | null
@@ -54,22 +55,27 @@ export default function CarterBuilder() {
   return (
     <>
       <div id="carter-builder">
-        <h1>Carter Creator 3 1.0.5-alpha</h1>
+        <h1>Carter Creator 3 1.0.6-alpha</h1>
         <div id="main-carter">
           <CarterExample
             baseColor={selectedBase.baseColor}
             baseImage={selectedBase.baseImage}
             layers={selectedFeatures}
           />
-          <CopyCarter selectedBase={selectedBase} selectedFeatures={selectedFeatures} />
+          <CopyCarter
+            selectedBase={selectedBase}
+            selectedFeatures={selectedFeatures}
+          />
         </div>
-        <nav>
+        <button id="open-nav" onClick={() => setOpenNavbar(true)}>select feature..</button>
+        <nav className={openNavbar ? "open" : undefined}>
           <button
             type="button"
             id="bases-button"
             onClick={() => {
               setSelectedFeaturesPath(null);
               setSelectedStackSlotName(null);
+              setOpenNavbar(false);
             }}
             disabled={selectedStackSlotName === null}
           >
@@ -85,6 +91,7 @@ export default function CarterBuilder() {
                 setSelectedStackSlotName(
                   FEATURE_NAMES[feature].slotName as keyof CartLayerStack,
                 );
+                setOpenNavbar(false);
               }}
               disabled={
                 selectedStackSlotName === FEATURE_NAMES[feature].slotName

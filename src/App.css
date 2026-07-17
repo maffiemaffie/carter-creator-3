@@ -4,6 +4,7 @@ body,
 button,
 input {
   font-family: "Alan Sans", Helvetica, sans-serif;
+  color: light-dark(#3c2914, white);
 }
 
 fieldset {
@@ -369,21 +370,48 @@ nav > button:before {
   }
 }
 
+#open-nav {
+  display: none;
+}
+
 @media (max-width: 768px) {
+  #open-nav {
+    display: block;
+  }
+
   nav > button:before {
-    display: none;
+    height: 100%;
+    width: auto;
   }
 
   nav {
-    flex-flow: row wrap;
+    background-color: #7c533e;
+    position: absolute;
+    width: 100vw;
+    height: 100dvh;
+    flex-flow: column nowrap;
+    left: -120vw;
+    transition: left 0.2s cubic-bezier(.09,.42,.84,.98);
+  }
+
+  nav.open {
+    left: 0;
   }
 
   nav > button {
+    font-size: large;
+    flex-flow: row nowrap;
+    padding: 0.5em;
+    align-items: center;
+    gap: 1em;
+  }
+
+  /* nav > button {
     flex: initial;
     flex-grow: 1;
     padding: 1vw;
     box-sizing: border-box;
-  }
+  } */
 
   #carter-builder {
     grid-template-areas:
