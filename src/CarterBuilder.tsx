@@ -55,7 +55,7 @@ export default function CarterBuilder() {
   return (
     <>
       <div id="carter-builder">
-        <h1>Carter Creator 3 1.0.7-alpha</h1>
+        <h1>Carter Creator 3 1.0.8-alpha</h1>
         <div id="main-carter">
           <CarterExample
             baseColor={selectedBase.baseColor}
