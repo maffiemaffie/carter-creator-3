@@ -74,20 +74,31 @@ export default function CopyCarter({
       }
     }
 
-    const croppedImageData = context.getImageData(bounds.left, bounds.top, bounds.right - bounds.left, bounds.bottom - bounds.top);
+    const croppedImageData = context.getImageData(
+      bounds.left,
+      bounds.top,
+      bounds.right - bounds.left,
+      bounds.bottom - bounds.top,
+    );
     canvas.width = bounds.right - bounds.left;
     canvas.height = bounds.bottom - bounds.top;
     context.putImageData(croppedImageData, 0, 0);
 
-    const doubleSizeCanvas = document.createElement('canvas');
+    const doubleSizeCanvas = document.createElement("canvas");
     doubleSizeCanvas.width = canvas.width * 2;
     doubleSizeCanvas.height = canvas.height * 2;
 
-    const doubleSizeContext = doubleSizeCanvas.getContext('2d')!;
+    const doubleSizeContext = doubleSizeCanvas.getContext("2d")!;
     doubleSizeContext.imageSmoothingEnabled = false;
-    doubleSizeContext.drawImage(canvas, 0, 0, doubleSizeCanvas.width, doubleSizeCanvas.height);
+    doubleSizeContext.drawImage(
+      canvas,
+      0,
+      0,
+      doubleSizeCanvas.width,
+      doubleSizeCanvas.height,
+    );
 
-    return doubleSizeCanvas
+    return doubleSizeCanvas;
   };
 
   const copyCanvas = () => {
@@ -100,11 +111,16 @@ export default function CopyCarter({
     cropped.toBlob(async (blob) => {
       if (!blob) return;
 
-      await navigator.clipboard.write([
-        new ClipboardItem({
-          "image/png": blob,
-        }),
-      ]);
+      if (navigator.clipboard) {
+        await navigator.clipboard.write([
+          new ClipboardItem({
+            "image/png": blob,
+          }),
+        ]);
+      } else {
+        const url = URL.createObjectURL(blob);
+        window.open(url, "_blank");
+      }
 
       setCopyStatus("Copied!");
       setTimeout(() => setCopyStatus(null), 1000);
