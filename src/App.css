@@ -107,12 +107,24 @@ pre {
 
 #page-tabs {
   grid-area: tabs;
+  display: flex;
+  flex-flow: row;
+  gap: 0.3vw;
+}
+
+#page-tabs input {
+  border-bottom-left-radius: 0;
+  border-bottom-right-radius: 0;
+  padding: 0 5px;
 }
 
 #main-wrapper {
   display: grid;
   align-items: center;
   justify-content: center;
+
+  background-image: url(/checker-light.svg);
+  background-size: 250px 250px;
 }
 
 #carter-builder {
@@ -132,14 +144,35 @@ pre {
   gap: 2vw;
 }
 
-button {
+button,
+input {
   padding: 0.5vw;
   border-radius: 0.5vh;
   border-style: none;
   box-sizing: border-box;
+
+  min-width: 24px;
+  min-height: 24px;
+
+  background-color: light-dark(#d5ab88, #af7e57);
 }
 
-button:hover:not(:disabled) {
+@media (any-pointer: coarse) {
+  button,
+  input {
+    min-width: 44px;
+    min-height: 44px;
+  }
+}
+
+button:disabled,
+input:disabled {
+  background-color: light-dark(#ddc4a9, #7c533e);
+  color: unset;
+}
+
+button:hover:not(:disabled),
+input:hover:not(:disabled) {
   filter: brightness(75%);
 }
 
@@ -156,6 +189,7 @@ nav {
   display: flex;
   flex-flow: row nowrap;
   grid-area: nav;
+  gap: 0.4vw;
 }
 
 nav > button {
@@ -167,13 +201,6 @@ nav > button {
   align-items: center;
 
   font-size: small;
-
-  background-color: gray;
-}
-
-nav > button:disabled {
-  background-color: dimgray;
-  color: unset;
 }
 
 h1 {
@@ -191,7 +218,7 @@ legend {
   display: grid;
   grid-template-columns: 1fr 1fr 1fr 1fr;
   grid-area: controls;
-  gap: 0.5vw
+  gap: 0.5vw;
 }
 
 #offset-buttons > button:nth-child(2),
@@ -209,21 +236,20 @@ legend {
 }
 
 #offset-buttons > button:nth-child(2) {
-  background-image: url(../public/button-icons/pointer-left.svg);
+  background-image: url(/button-icons/pointer-left.svg);
 }
 
 #offset-buttons > button:nth-child(3) {
-  background-image: url(../public/button-icons/pointer-right.svg);
+  background-image: url(/button-icons/pointer-right.svg);
 }
 
 #offset-buttons > button:nth-child(4) {
-  background-image: url(../public/button-icons/pointer-up.svg);
+  background-image: url(/button-icons/pointer-up.svg);
 }
 
 #offset-buttons > button:nth-child(5) {
-  background-image: url(../public/button-icons/pointer-down.svg);
+  background-image: url(/button-icons/pointer-down.svg);
 }
-
 
 #offset-buttons > button {
   background-position: 50% 50%;
@@ -240,53 +266,107 @@ nav > button:before {
   display: block;
   width: 100%;
   aspect-ratio: 1;
-  background: url(../public/button-icons/bases.svg);
+  background: url(/button-icons/nav-dark/bases.svg);
   background-size: contain;
   background-repeat: no-repeat;
 }
 
 #bases-button:before {
-  background-image: url(../public/button-icons/bases.svg);
+  background-image: url(/button-icons/nav-dark/bases.svg);
 }
 
 #hair-button:before {
-  background-image: url(../public/button-icons/hair.svg);
+  background-image: url(/button-icons/nav-dark/hair.svg);
 }
 
 #hat-button:before {
-  background-image: url(../public/button-icons/hat.svg);
+  background-image: url(/button-icons/nav-dark/hat.svg);
 }
 
 #blush-button:before {
-  background-image: url(../public/button-icons/blush.svg);
+  background-image: url(/button-icons/nav-dark/blush.svg);
 }
 
 #mouth-button:before {
-  background-image: url(../public/button-icons/mouth2.svg);
+  background-image: url(/button-icons/nav-dark/mouth.svg);
 }
 
 #eyes-button:before {
-  background-image: url(../public/button-icons/eyes.svg);
+  background-image: url(/button-icons/nav-dark/eyes.svg);
 }
 
 #eyebrows-button:before {
-  background-image: url(../public/button-icons/eyebrows.svg);
+  background-image: url(/button-icons/nav-dark/eyebrows.svg);
 }
 
 #hands-button:before {
-  background-image: url(../public/button-icons/hand.svg);
+  background-image: url(/button-icons/nav-dark/hand.svg);
 }
 
 #glasses-button:before {
-  background-image: url(../public/button-icons/glasses.svg);
+  background-image: url(/button-icons/nav-dark/glasses.svg);
 }
 
 #fx-button:before {
-  background-image: url(../public/button-icons/fx.svg);
+  background-image: url(/button-icons/nav-dark/fx.svg);
 }
 
 #mustache-button:before {
-  background-image: url(../public/button-icons/mustache.svg);
+  background-image: url(/button-icons/nav-dark/mustache.svg);
+}
+
+@media (prefers-color-scheme: dark) {
+  canvas {
+    background-image: conic-gradient(#aaa 25%, #888 0 50%, #aaa 0 75%, #888 0);
+  }
+
+  #main-wrapper {
+    background-image: url(/checker-dark.svg);
+  }
+
+  #bases-button:before {
+    background-image: url(/button-icons/nav-light/bases.svg);
+  }
+
+  #hair-button:before {
+    background-image: url(/button-icons/nav-light/hair.svg);
+  }
+
+  #hat-button:before {
+    background-image: url(/button-icons/nav-light/hat.svg);
+  }
+
+  #blush-button:before {
+    background-image: url(/button-icons/nav-light/blush.svg);
+  }
+
+  #mouth-button:before {
+    background-image: url(/button-icons/nav-light/mouth.svg);
+  }
+
+  #eyes-button:before {
+    background-image: url(/button-icons/nav-light/eyes.svg);
+  }
+
+  #eyebrows-button:before {
+    background-image: url(/button-icons/nav-light/eyebrows.svg);
+  }
+
+  #hands-button:before {
+    background-image: url(/button-icons/nav-light/hand.svg);
+  }
+
+  #glasses-button:before {
+    background-image: url(/button-icons/nav-light/glasses.svg);
+  }
+
+  #fx-button:before {
+    background-image: url(/button-icons/nav-light/fx.svg);
+  }
+
+  #mustache-button:before {
+    background-image: url(/button-icons/nav-light/mustache.svg);
+  }
 }
 
 @media (max-width: 768px) {
