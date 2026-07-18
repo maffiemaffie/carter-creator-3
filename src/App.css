@@ -1,4 +1,19 @@
-@import url("https://fonts.googleapis.com/css2?family=Alan+Sans:wght@300..900&display=swap");
+/* alan-sans-regular - latin */
+@font-face {
+  font-display: swap;
+  font-family: 'Alan Sans';
+  font-style: normal;
+  font-weight: 400;
+  src: url('/fonts/alan-sans-v5-latin-regular.woff2') format('woff2'); 
+}
+/* alan-sans-700 - latin */
+@font-face {
+  font-display: swap; 
+  font-family: 'Alan Sans';
+  font-style: normal;
+  font-weight: 700;
+  src: url('/fonts/alan-sans-v5-latin-700.woff2') format('woff2');
+}
 
 body,
 button,
