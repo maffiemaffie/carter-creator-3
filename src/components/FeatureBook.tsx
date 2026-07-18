@@ -93,16 +93,16 @@ export default function FeatureBook({
     <>
       <fieldset id="offset-buttons">
         <legend>Move {stackSlotName}:</legend>
-        <button type="button" onClick={() => shiftFeature("left")}>
+        <button type="button" aria-label="move left" onClick={() => shiftFeature("left")}>
           ◀️
         </button>
-        <button type="button" onClick={() => shiftFeature("right")}>
+        <button type="button" aria-label="move right" onClick={() => shiftFeature("right")}>
           ▶️
         </button>
-        <button type="button" onClick={() => shiftFeature("up")}>
+        <button type="button" aria-label="move up" onClick={() => shiftFeature("up")}>
           🔼
         </button>
-        <button type="button" onClick={() => shiftFeature("down")}>
+        <button type="button" aria-label="move down" onClick={() => shiftFeature("down")}>
           🔽
         </button>
       </fieldset>
@@ -128,6 +128,7 @@ export default function FeatureBook({
           }).map((_, index) => (
             <input
               key={index + 1}
+              aria-label={"page " + index + 1}
               type="button"
               value={index + 1}
               onClick={() => setPage(index)}
@@ -141,6 +142,7 @@ export default function FeatureBook({
             .map((feature) => (
               <button
                 key={feature.name}
+                aria-label={feature.name}
                 type="button"
                 onClick={() => {
                   setBookOpen(false);

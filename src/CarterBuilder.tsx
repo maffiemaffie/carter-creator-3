@@ -14,7 +14,7 @@ import ChangeBase from "./components/ChangeBase";
 import CopyCarter from "./CopyCarter";
 
 export default function CarterBuilder() {
-  const title = "Carter Creator 3 2.1.1-alpha";
+  const title = "Carter Creator 3 2.1.2-alpha";
 
   const [allFeatures, setAllFeatures] =
     useState<Record<string, CartFeature[]>>();
@@ -122,7 +122,7 @@ export default function CarterBuilder() {
 
   return (
     <>
-      <div id="carter-builder">
+      <main id="carter-builder">
         <h1>{title}</h1>
         <div id="main-carter">
           <CarterExample
@@ -141,6 +141,7 @@ export default function CarterBuilder() {
         <nav className={openNavbar ? "open" : undefined}>
           <button
             type="button"
+            aria-label="bases"
             id="bases-button"
             onClick={() => {
               setSelectedFeaturesPath(null);
@@ -154,6 +155,7 @@ export default function CarterBuilder() {
           {CART_STACK_ORDER.map((feature) => (
             <button
               key={feature}
+              aria-label={feature}
               id={`${feature}-button`}
               type="button"
               onClick={() => {
@@ -196,7 +198,7 @@ export default function CarterBuilder() {
             />
           )}
         </form>
-      </div>
+      </main>
     </>
   );
 }

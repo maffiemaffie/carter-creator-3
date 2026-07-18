@@ -46,23 +46,28 @@ export const BASE_CARTERS: {
   [key: string]: {
     baseColor: RGBAColor;
     baseImage: HTMLImageElement;
+    baseName: string;
   };
 } = Object.freeze({
   white: {
     baseColor: WHITE_CARTER_BASE_COLOR,
     baseImage: BASE_CARTER_IMAGES.white,
+    baseName: "white carter"
   },
   tan: {
     baseColor: TAN_CARTER_BASE_COLOR,
     baseImage: BASE_CARTER_IMAGES.tan,
+    baseName: "tan carter"
   },
   brown: {
     baseColor: BROWN_CARTER_BASE_COLOR,
     baseImage: BASE_CARTER_IMAGES.brown,
+    baseName: "brown carter"
   },
   black: {
     baseColor: BLACK_CARTER_BASE_COLOR,
     baseImage: BASE_CARTER_IMAGES.black,
+    baseName: "black carter"
   },
 });
 

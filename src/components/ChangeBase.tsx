@@ -34,6 +34,7 @@ export default function ChangeBase({ onBaseSelect }: ChangeBaseProps) {
           {Object.values(BASE_CARTERS).map((base) => (
             <button
               key={base.baseImage.src}
+              aria-label={base.baseName}
               type="button"
               onClick={() => {
                 setBookOpen(false);
