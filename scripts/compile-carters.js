@@ -3,33 +3,36 @@ import path from "path";
 
 const ROOT = "src/assets/features";
 
-const entries = await readdir(ROOT, { withFileTypes: true });
+const categories = await readdir(ROOT, { withFileTypes: true });
 
-for (const entry of entries) {
-  if (!entry.isDirectory()) continue;
+const allCombined = {};
 
-  const dirName = entry.name;
+for (const category of categories) {
+  if (!category.isDirectory()) continue;
 
-  if (dirName === "compiled") continue;
+  const dirName = category.name;
 
   const dirPath = path.join(ROOT, dirName);
 
-  const files = (await readdir(dirPath))
-    .filter((file) => file.endsWith(".json"))
+  const features = (await readdir(dirPath))
+    .filter((feature) => feature.endsWith(".json"))
     .sort();
 
   const combined = [];
 
-  for (const file of files) {
+  for (const feature of features) {
     const json = JSON.parse(
-      await readFile(path.join(dirPath, file), "utf8"),
+      await readFile(path.join(dirPath, feature), "utf8"),
     );
     combined.push(json);
   }
 
-  const outPath = path.join(ROOT, `${dirName}.json`);
+  allCombined[dirName] = combined;
 
-  await writeFile(outPath, JSON.stringify(combined, null, 2));
-
-  console.log(`✓ ${outPath}`);
+  console.log(`✓ Compiled ${dirName}/`)
 }
+const outPath = path.join(ROOT, "features.json");
+
+await writeFile(outPath, JSON.stringify(allCombined, null, 2));
+
+console.log(`✓ ${outPath}`);

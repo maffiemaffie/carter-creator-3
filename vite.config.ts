@@ -7,6 +7,15 @@ import { Features } from "lightningcss";
 export default defineConfig({
   build: {
     cssMinify: "lightningcss",
+    minify: "terser",
+    terserOptions: {
+      compress: {
+        drop_console: true,
+        drop_debugger: true,
+        dead_code: true,
+        unused: true,
+      },
+    },
   },
   plugins: [react(), babel({ presets: [reactCompilerPreset()] })],
   base: "/carter-creator-3/",

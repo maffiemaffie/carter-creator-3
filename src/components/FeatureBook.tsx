@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import {
   type CartFeature,
   type CartLayerStack,
@@ -9,58 +9,57 @@ import {
 import CarterExample from "./CarterExample";
 
 type FeatureBookProps = {
-  featuresPath: string;
   stackSlotName: keyof CartLayerStack;
   userOffset: Offset;
   onFeatureSelect: (overlay: CartOverlay) => void;
   onUpdatePosition: (offset: Offset) => void;
   baseColor: RGBAColor;
   baseImage: HTMLImageElement;
+  features: CartFeature[];
 };
 
 export default function FeatureBook({
-  featuresPath,
   stackSlotName,
   userOffset,
   onFeatureSelect,
   onUpdatePosition,
   baseColor,
   baseImage,
+  features,
 }: FeatureBookProps) {
-  const [features, setFeatures] = useState<CartFeature[]>([]);
   const [page, setPage] = useState<number>(0);
   const [bookOpen, setBookOpen] = useState<boolean>(false);
 
   const featuresPerPage = 9;
 
-  useEffect(() => {
-    const loadFeatures = async () => {
-      const loadedFeatures = [
-        {
-          name: "none",
-          overlay: {
-            offset: { x: 0, y: 0 },
-            multiply: {},
-            color: {},
-          },
-        },
-      ];
+  // useEffect(() => {
+  //   const loadFeatures = async () => {
+  //     const loadedFeatures = [
+  //       {
+  //         name: "none",
+  //         overlay: {
+  //           offset: { x: 0, y: 0 },
+  //           multiply: {},
+  //           color: {},
+  //         },
+  //       },
+  //     ];
 
-      const allFeatures = import.meta.glob("../assets/features/*.json");
+  //     const allFeatures = import.meta.glob("../assets/features/*.json");
 
-      const features = (await allFeatures[
-        `../assets/features/${featuresPath}.json`
-      ]()) as { default: CartFeature[] };
+  //     const features = (await allFeatures[
+  //       `../assets/features/${featuresPath}.json`
+  //     ]()) as { default: CartFeature[] };
 
-      loadedFeatures.push(...features.default);
+  //     loadedFeatures.push(...features.default);
 
-      setFeatures(loadedFeatures);
-      setPage(0);
-      setBookOpen(true);
-    };
+  //     setFeatures(loadedFeatures);
+  //     setPage(0);
+  //     setBookOpen(true);
+  //   };
 
-    loadFeatures();
-  }, [featuresPath]);
+  //   loadFeatures();
+  // }, [featuresPath]);
 
   const shiftFeature = (direction: "up" | "down" | "left" | "right") => {
     const xOffset = {
@@ -100,11 +99,20 @@ export default function FeatureBook({
           🔽
         </button>
       </fieldset>
-      <input id="open-book" type="button" value={`select ${stackSlotName}...`} onClick={() => setBookOpen(true)} />
+      <input
+        id="open-book"
+        type="button"
+        value={`select ${stackSlotName}...`}
+        onClick={() => setBookOpen(true)}
+      />
       <fieldset id="feature-select" className={bookOpen ? "open" : undefined}>
         <div className="feature-select-header">
           Select {stackSlotName}:
-          <input type="button" value="back" onClick={() => setBookOpen(false)} />
+          <input
+            type="button"
+            value="back"
+            onClick={() => setBookOpen(false)}
+          />
         </div>
         <fieldset id="page-tabs">
           <legend>Page:</legend>

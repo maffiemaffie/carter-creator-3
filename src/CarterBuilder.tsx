@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import FeatureBook from "./components/FeatureBook";
 import {
   CART_STACK_ORDER,
+  type CartFeature,
   type CartLayerStack,
   type CartOverlay,
   type Offset,
@@ -13,6 +14,10 @@ import ChangeBase from "./components/ChangeBase";
 import CopyCarter from "./CopyCarter";
 
 export default function CarterBuilder() {
+  const title = "Carter Creator 3 2.0.0-alpha";
+
+  const [allFeatures, setAllFeatures] =
+    useState<Record<string, CartFeature[]>>();
   const [openNavbar, setOpenNavbar] = useState<boolean>(false);
   const [selectedFeatures, setSelectedFeatures] = useState<CartLayerStack>({});
   const [selectedFeaturesPath, setSelectedFeaturesPath] = useState<
@@ -25,6 +30,60 @@ export default function CarterBuilder() {
     baseColor: RGBAColor;
     baseImage: HTMLImageElement;
   }>(BASE_CARTERS.white);
+
+  useEffect(() => {
+    const loadFeatures = async () => {
+      // const loadedFeatures = [
+      //   {
+      //     name: "none",
+      //     overlay: {
+      //       offset: { x: 0, y: 0 },
+      //       multiply: {},
+      //       color: {},
+      //     },
+      //   },
+      // ];
+
+      const loadedFeatures: Record<string, CartFeature[]> = {};
+
+      console.log("Locating features file...");
+
+      const importFunction = import.meta.glob(
+        "./assets/features/features.json",
+      );
+
+      console.log("Features file located: ", importFunction);
+      console.log("Importing features...")
+
+      const imported = (await importFunction[
+        `./assets/features/features.json`
+      ]()) as { default: Record<string, CartFeature[]> };
+
+      console.log("Features imported: ", imported);
+
+      for (const [category, features] of Object.entries(imported.default)) {
+        console.log(`Organizing ${category}...`)
+
+        loadedFeatures[category] = [
+          {
+            name: "none",
+            overlay: {
+              offset: { x: 0, y: 0 },
+              multiply: {},
+              color: {},
+            },
+          },
+          ...features,
+        ];
+      }
+
+      console.log("All features loaded successfully");
+
+      setAllFeatures(loadedFeatures);
+    };
+
+    loadFeatures();
+  }, []);
 
   const setStackLayer = (
     slotName: keyof CartLayerStack,
@@ -52,10 +111,19 @@ export default function CarterBuilder() {
     });
   };
 
+  // console.log(allFeatures);
+  if (!allFeatures)
+    return (
+      <>
+        <h1>{title}</h1>
+        <div id="carter-builder">Loading carters...</div>
+      </>
+    );
+
   return (
     <>
       <div id="carter-builder">
-        <h1>Carter Creator 3 1.1.5-alpha</h1>
+        <h1>{title}</h1>
         <div id="main-carter">
           <CarterExample
             baseColor={selectedBase.baseColor}
@@ -67,7 +135,9 @@ export default function CarterBuilder() {
             selectedFeatures={selectedFeatures}
           />
         </div>
-        <button id="open-nav" onClick={() => setOpenNavbar(true)}>select category..</button>
+        <button id="open-nav" onClick={() => setOpenNavbar(true)}>
+          select category..
+        </button>
         <nav className={openNavbar ? "open" : undefined}>
           <button
             type="button"
@@ -107,7 +177,7 @@ export default function CarterBuilder() {
           )}
           {selectedStackSlotName !== null && selectedFeaturesPath !== null && (
             <FeatureBook
-              featuresPath={selectedFeaturesPath}
+              features={allFeatures[selectedFeaturesPath]}
               stackSlotName={selectedStackSlotName}
               userOffset={
                 selectedFeatures[selectedStackSlotName]?.userOffset ?? {
