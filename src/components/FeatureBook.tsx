@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import {
   type CartFeature,
   type CartLayerStack,
@@ -60,6 +60,13 @@ export default function FeatureBook({
 
   //   loadFeatures();
   // }, [featuresPath]);
+
+  useEffect(() => {
+    (() => {
+      setPage(0);
+      setBookOpen(true);
+    })();
+  }, [features]);
 
   const shiftFeature = (direction: "up" | "down" | "left" | "right") => {
     const xOffset = {
