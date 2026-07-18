@@ -112,14 +112,20 @@ export default function CopyCarter({
       if (!blob) return;
 
       if (navigator.clipboard) {
-        await navigator.clipboard.write([
-          new ClipboardItem({
-            "image/png": blob,
-          }),
-        ]);
+        try {
+          await navigator.clipboard.write([
+            new ClipboardItem({
+              "image/png": blob,
+            }),
+          ]);
+        } catch {
+          const url = URL.createObjectURL(blob);
+          window.open(url, "_blank");
+        }
       } else {
         const url = URL.createObjectURL(blob);
         window.open(url, "_blank");
+        return;
       }
 
       setCopyStatus("Copied!");
