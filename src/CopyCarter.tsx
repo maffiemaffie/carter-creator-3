@@ -108,29 +108,50 @@ export default function CopyCarter({
 
     const cropped = getCroppedCanvas(canvas);
 
-    cropped.toBlob(async (blob) => {
-      if (!blob) return;
+    const isSafari =
+      /^((?!chrome|chromium|android|crios|fxios|edgios|opr|opera).)*safari/i.test(
+        navigator.userAgent,
+      );
 
-      if (navigator.clipboard) {
+    if (navigator.clipboard && !isSafari) {
+      cropped.toBlob(async (blob) => {
+        if (!blob) {
+          setCopyStatus("Something went wrong.. :(");
+          setTimeout(() => setCopyStatus(null), 1000);
+          return;
+        }
+
         try {
           await navigator.clipboard.write([
             new ClipboardItem({
               "image/png": blob,
             }),
           ]);
-        } catch {
-          const url = URL.createObjectURL(blob);
-          window.open(url, "_blank");
-        }
-      } else {
-        const url = URL.createObjectURL(blob);
-        window.open(url, "_blank");
-        return;
-      }
 
-      setCopyStatus("Copied!");
-      setTimeout(() => setCopyStatus(null), 1000);
-    });
+          setCopyStatus("Copied!");
+          setTimeout(() => setCopyStatus(null), 1000);
+        } catch {
+          setCopyStatus("Something went wrong.. :(");
+          setTimeout(() => setCopyStatus(null), 1000);
+        }
+      });
+    } else {
+      const newWindow = window.open("about:blank", "_blank");
+
+      cropped.toBlob(async (blob) => {
+        if (!blob || !newWindow) {
+          setCopyStatus("Something went wrong.. :(");
+          setTimeout(() => setCopyStatus(null), 1000);
+          return;
+        }
+
+        const url = URL.createObjectURL(blob);
+        newWindow.location.href = url;
+
+        setCopyStatus("Copied!");
+        setTimeout(() => setCopyStatus(null), 1000);
+      });
+    }
   };
 
   return (
