@@ -394,15 +394,15 @@ nav > button:before {
 @media (max-width: 768px) {
   #feature-select {
     position: absolute;
-    left: 0;
+    top: 0;
     width: 100vw;
     height: 100dvh;
     background-color: #3c2914;
     margin: 0;
     padding: 1em;
     box-sizing: border-box;
-    top: 120vh;
-    transition: top 0.2s cubic-bezier(0.09, 0.42, 0.84, 0.98);
+    left: 120vw;
+    transition: left 0.2s cubic-bezier(0.09, 0.42, 0.84, 0.98);
 
     grid-template-areas:
       "header"
@@ -421,7 +421,7 @@ nav > button:before {
   }
 
   #feature-select.open {
-    top: 0;
+    left: 0;
   }
 
   #open-book,
@@ -435,17 +435,18 @@ nav > button:before {
   }
 
   nav {
+    top: 0;
     background-color: #7c533e;
     position: absolute;
     width: 100vw;
     height: 100dvh;
     flex-flow: column nowrap;
-    top: -120vh;
-    transition: top 0.2s cubic-bezier(0.09, 0.42, 0.84, 0.98);
+    left: -120vw;
+    transition: left 0.2s cubic-bezier(0.09, 0.42, 0.84, 0.98);
   }
 
   nav.open {
-    top: 0;
+    left: 0;
   }
 
   nav > button {
