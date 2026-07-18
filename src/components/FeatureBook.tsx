@@ -25,10 +25,13 @@ export default function FeatureBook({
   onFeatureSelect,
   onUpdatePosition,
   baseColor,
-  baseImage
+  baseImage,
 }: FeatureBookProps) {
   const [features, setFeatures] = useState<CartFeature[]>([]);
   const [page, setPage] = useState<number>(0);
+  const [bookOpen, setBookOpen] = useState<boolean>(false);
+
+  const featuresPerPage = 9;
 
   useEffect(() => {
     const loadFeatures = async () => {
@@ -53,6 +56,7 @@ export default function FeatureBook({
 
       setFeatures(loadedFeatures);
       setPage(0);
+      setBookOpen(true);
     };
 
     loadFeatures();
@@ -82,16 +86,31 @@ export default function FeatureBook({
   return (
     <>
       <fieldset id="offset-buttons">
-        <legend>Move Feature:</legend>
-        <button type="button" onClick={() => shiftFeature("left")} >◀️</button>
-        <button type="button" onClick={() => shiftFeature("right")} >▶️</button>
-        <button type="button" onClick={() => shiftFeature("up")} >🔼</button>
-        <button type="button" onClick={() => shiftFeature("down")} >🔽</button>
+        <legend>Move {stackSlotName}:</legend>
+        <button type="button" onClick={() => shiftFeature("left")}>
+          ◀️
+        </button>
+        <button type="button" onClick={() => shiftFeature("right")}>
+          ▶️
+        </button>
+        <button type="button" onClick={() => shiftFeature("up")}>
+          🔼
+        </button>
+        <button type="button" onClick={() => shiftFeature("down")}>
+          🔽
+        </button>
       </fieldset>
-      <fieldset id="page-tabs">
-        <legend>Page:</legend>
-        {Array.from({ length: Math.ceil(features.length / 9) }).map(
-          (_, index) => (
+      <input id="open-book" type="button" value={`select ${stackSlotName}...`} onClick={() => setBookOpen(true)} />
+      <fieldset id="feature-select" className={bookOpen ? "open" : undefined}>
+        <div className="feature-select-header">
+          Select {stackSlotName}:
+          <input type="button" value="back" onClick={() => setBookOpen(false)} />
+        </div>
+        <fieldset id="page-tabs">
+          <legend>Page:</legend>
+          {Array.from({
+            length: Math.ceil(features.length / featuresPerPage),
+          }).map((_, index) => (
             <input
               key={index + 1}
               type="button"
@@ -99,32 +118,37 @@ export default function FeatureBook({
               onClick={() => setPage(index)}
               disabled={page === index}
             />
-          ),
-        )}
-      </fieldset>
-      <div className="feature-page">
-        {features.slice(page * 9, (page + 1) * 9).map((feature) => (
-          <button
-            key={feature.name}
-            type="button"
-            onClick={() => onFeatureSelect(feature.overlay)}
-          >
-            <CarterExample
-              baseColor={baseColor}
-              baseImage={baseImage}
-              layers={{
-                [stackSlotName]: {
-                  userOffset,
-                  overlay: feature.overlay,
-                },
-              }}
-              key={feature.name}
-            />
-            {/* <br />
+          ))}
+        </fieldset>
+        <div className="feature-page">
+          {features
+            .slice(page * featuresPerPage, (page + 1) * featuresPerPage)
+            .map((feature) => (
+              <button
+                key={feature.name}
+                type="button"
+                onClick={() => {
+                  setBookOpen(false);
+                  onFeatureSelect(feature.overlay);
+                }}
+              >
+                <CarterExample
+                  baseColor={baseColor}
+                  baseImage={baseImage}
+                  layers={{
+                    [stackSlotName]: {
+                      userOffset,
+                      overlay: feature.overlay,
+                    },
+                  }}
+                  key={feature.name}
+                />
+                {/* <br />
             {feature.name} */}
-          </button>
-        ))}
-      </div>
+              </button>
+            ))}
+        </div>
+      </fieldset>
     </>
   );
 }
