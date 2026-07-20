@@ -14,8 +14,32 @@ export default function CopyCarter({
   selectedFeatures,
   selectedBase: { baseColor, baseImage },
 }: CopyCarterProps) {
+  const copyRef = useRef<Blob>(null);
+
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [copyStatus, setCopyStatus] = useState<string | null>(null);
+
+  const getCopyData = async () => {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    // const start = performance.now();
+    const canvas = canvasRef.current;
+
+    if (!canvas) return console.log("wuh oh");
+
+    return new Promise((resolve, reject) => {
+      const cropped = getCroppedCanvas(canvas);
+
+      cropped.toBlob(async (blob) => {
+        if (blob) {
+          copyRef.current = blob;
+          resolve(blob);
+          return;
+        }
+
+        reject("Failed to generate data");
+      });
+    });
+  };
 
   const getCroppedCanvas = (canvas: HTMLCanvasElement) => {
     const bounds = {
@@ -101,63 +125,89 @@ export default function CopyCarter({
     return doubleSizeCanvas;
   };
 
-  const copyCanvas = () => {
-    const canvas = canvasRef.current;
+  const copyCanvas = async () => {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const data = copyRef.current || (await getCopyData());
 
-    if (!canvas) return console.log("wuh oh");
+    // const start = performance.now();
+    // const canvas = canvasRef.current;
 
-    const cropped = getCroppedCanvas(canvas);
+    // if (!canvas) return console.log("wuh oh");
 
-    const isSafari =
-      /^((?!chrome|chromium|android|crios|fxios|edgios|opr|opera).)*safari/i.test(
-        navigator.userAgent,
-      );
+    // const cropped = getCroppedCanvas(canvas);
 
-    if (navigator.clipboard && !isSafari) {
-      cropped.toBlob(async (blob) => {
-        if (!blob) {
-          setCopyStatus("Something went wrong.. :(");
-          setTimeout(() => setCopyStatus(null), 1000);
-          return;
-        }
+    // const isSafari =
+    //   /^((?!chrome|chromium|android|crios|fxios|edgios|opr|opera).)*safari/i.test(
+    //     navigator.userAgent,
+    //   );
 
-        try {
-          await navigator.clipboard.write([
-            new ClipboardItem({
-              "image/png": blob,
-            }),
-          ]);
+    if (!data || (data as Blob).type != "image/png") {
+      setCopyStatus("Something went wrong.. :(");
+      setTimeout(() => setCopyStatus(null), 1000);
+      copyRef.current = null;
+      return;
+    }
 
-          setCopyStatus("Copied!");
-          setTimeout(() => setCopyStatus(null), 1000);
-        } catch {
-          setCopyStatus("Something went wrong.. :(");
-          setTimeout(() => setCopyStatus(null), 1000);
-        }
-      });
+    // if (navigator.clipboard && !isSafari) {
+    if (navigator.clipboard) {
+      // cropped.toBlob(async (blob) => {
+      // if (!data || (data as Blob).type != "image/png") {
+      //   setCopyStatus("Something went wrong.. :(");
+      //   setTimeout(() => setCopyStatus(null), 1000);
+      //   return;
+      // }
+
+      try {
+        await navigator.clipboard.write([
+          new ClipboardItem({
+            "image/png": data as Blob,
+          }),
+        ]);
+
+        // console.log(performance.now() - start);
+        setCopyStatus("Copied!");
+        setTimeout(() => setCopyStatus(null), 1000);
+      } catch {
+        setCopyStatus("Something went wrong.. :(");
+        setTimeout(() => setCopyStatus(null), 1000);
+      }
+      // });
     } else {
       const newWindow = window.open("about:blank", "_blank");
 
-      cropped.toBlob(async (blob) => {
-        if (!blob || !newWindow) {
-          setCopyStatus("Something went wrong.. :(");
-          setTimeout(() => setCopyStatus(null), 1000);
-          return;
-        }
+      // cropped.toBlob(async (blob) => {
+      // if (!data || (data as Blob).type != "image/png" || !newWindow) {
+      //   setCopyStatus("Something went wrong.. :(");
+      //   setTimeout(() => setCopyStatus(null), 1000);
+      //   return;
+      // }
 
-        const url = URL.createObjectURL(blob);
-        newWindow.location.href = url;
-
-        setCopyStatus("Copied!");
+      if (!newWindow) {
+        setCopyStatus("Something went wrong.. :(");
         setTimeout(() => setCopyStatus(null), 1000);
-      });
+        copyRef.current = null;
+        return;
+      }
+
+      const url = URL.createObjectURL(data as Blob);
+      newWindow.location.href = url;
+
+      setCopyStatus("Copied!");
+      setTimeout(() => setCopyStatus(null), 1000);
+      // });
     }
+
+    copyRef.current = null;
   };
 
   return (
     <button
       id="copy-carter"
       type="button"
+      onMouseEnter={getCopyData}
+      onFocus={getCopyData}
+      onMouseLeave={() => (copyRef.current = null)}
+      onBlur={() => (copyRef.current = null)}
       onClick={copyCanvas}
       disabled={!!copyStatus}
     >

@@ -14,7 +14,7 @@ import ChangeBase from "./components/ChangeBase";
 import CopyCarter from "./CopyCarter";
 
 export default function CarterBuilder() {
-  const title = "Carter Creator 3 2.1.2-alpha";
+  const title = "Carter Creator 3 2.2.0-alpha";
 
   const [allFeatures, setAllFeatures] =
     useState<Record<string, CartFeature[]>>();
@@ -54,6 +54,7 @@ export default function CarterBuilder() {
 
       console.log("Features file located: ", importFunction);
       console.log("Importing features...")
+
 
       const imported = (await importFunction[
         `./assets/features/features.json`
