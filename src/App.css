@@ -1,18 +1,18 @@
 /* alan-sans-regular - latin */
 @font-face {
   font-display: swap;
-  font-family: 'Alan Sans';
+  font-family: "Alan Sans";
   font-style: normal;
   font-weight: 400;
-  src: url('/fonts/alan-sans-v5-latin-regular.woff2') format('woff2'); 
+  src: url("/fonts/alan-sans-v5-latin-regular.woff2") format("woff2");
 }
 /* alan-sans-700 - latin */
 @font-face {
-  font-display: swap; 
-  font-family: 'Alan Sans';
+  font-display: swap;
+  font-family: "Alan Sans";
   font-style: normal;
   font-weight: 700;
-  src: url('/fonts/alan-sans-v5-latin-700.woff2') format('woff2');
+  src: url("/fonts/alan-sans-v5-latin-700.woff2") format("woff2");
 }
 
 body,
@@ -43,7 +43,12 @@ canvas {
   height: 100%;
   object-fit: contain;
   image-rendering: pixelated;
-  background: conic-gradient(#ddd 25%, #bbb 0 50%, #ddd 0 75%, #bbb 0);
+  background: conic-gradient(
+    #ddddda 25%,
+    #c2bbb5 0 50%,
+    #ddddda 0 75%,
+    #c2bbb5 0
+  );
   background-size: 32px 32px;
   aspect-ratio: unset;
 }
@@ -153,13 +158,18 @@ pre {
   align-items: center;
   justify-content: center;
 
+  position: relative;
+
   background-image: url(/checker-light.svg);
   background-size: 250px 250px;
+
+  width: 100vw;
+  height: 100dvh;
+
+  overflow: hidden;
 }
 
 #carter-builder {
-  position: relative;
-
   display: grid;
   grid-template-areas:
     "header header"
@@ -351,7 +361,12 @@ nav > button:before {
 
 @media (prefers-color-scheme: dark) {
   canvas {
-    background-image: conic-gradient(#aaa 25%, #888 0 50%, #aaa 0 75%, #888 0);
+    background-image: conic-gradient(
+      #b0aaa4 25%,
+      #948584 0 50%,
+      #b0aaa4 0 75%,
+      #948584 0
+    );
   }
 
   #main-wrapper {
@@ -411,14 +426,14 @@ nav > button:before {
 @media (max-width: 768px) {
   #feature-select {
     position: absolute;
-    top: 0;
+    top: -100dvh;
     width: 100vw;
     height: 100dvh;
     background-color: #3c2914;
     margin: 0;
     padding: 1em;
     box-sizing: border-box;
-    left: 100vw;
+    left: 0vw;
     transition: left 0.2s cubic-bezier(0.09, 0.42, 0.84, 0.98);
 
     grid-template-areas:
@@ -438,7 +453,7 @@ nav > button:before {
   }
 
   #feature-select.open {
-    left: 0;
+    left: -100vw;
   }
 
   #open-book,
@@ -452,22 +467,24 @@ nav > button:before {
   }
 
   nav {
-    top: 0;
+    top: -100dvh;
     background-color: #7c533e;
     position: absolute;
     width: 100vw;
     height: 100dvh;
     flex-flow: column nowrap;
-    left: -100vw;
+    left: -200vw;
     transition: left 0.25s cubic-bezier(0.09, 0.42, 0.84, 0.98);
   }
 
   nav.open {
-    left: 0;
+    left: -100vw;
   }
 
   nav > button {
-    font-size: large;
+    min-height: 22px;
+    flex-shrink: 1;
+    font-size: medium;
     flex-flow: row nowrap;
     padding: 0.5em;
     align-items: center;
