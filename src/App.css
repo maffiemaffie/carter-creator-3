@@ -484,7 +484,7 @@ nav > button:before {
   nav > button {
     min-height: 22px;
     flex-shrink: 1;
-    font-size: medium;
+    font-size: large;
     flex-flow: row nowrap;
     padding: 0.5em;
     align-items: center;
