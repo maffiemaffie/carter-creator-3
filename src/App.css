@@ -188,7 +188,7 @@ input {
   min-width: 24px;
   min-height: 24px;
 
-  background-color: light-dark(#d5ab88, #7c533e);
+  background-color: light-dark(#ddc4a9, #7c533e);
 }
 
 @media (any-pointer: coarse) {
@@ -201,7 +201,7 @@ input {
 
 button:disabled,
 input:disabled {
-  background-color: light-dark(#ddc4a9, #3c2914);
+  background-color: light-dark(#cd9970, #3c2914);
   color: unset;
 }
 
