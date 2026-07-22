@@ -14,7 +14,7 @@ import ChangeBase from "./components/ChangeBase";
 import CopyCarter from "./CopyCarter";
 
 export default function CarterBuilder() {
-  const title = "Carter Creator 3 2.2.1-alpha";
+  const title = "Carter Creator 3 2.3.0-alpha";
 
   const [allFeatures, setAllFeatures] =
     useState<Record<string, CartFeature[]>>();
