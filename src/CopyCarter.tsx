@@ -20,8 +20,6 @@ export default function CopyCarter({
   const [copyStatus, setCopyStatus] = useState<string | null>(null);
 
   const getCopyData = async () => {
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    // const start = performance.now();
     const canvas = canvasRef.current;
 
     if (!canvas) return console.log("wuh oh");
@@ -74,7 +72,7 @@ export default function CopyCarter({
     mainLoop: for (let x = bounds.right - 1; x > bounds.left; x--) {
       for (let y = 0; y < canvas.height; y++) {
         if (canvasImageData.data[alphaAt(x, y)] !== 0) {
-          bounds.right = x;
+          bounds.right = x + 1;
           break mainLoop;
         }
       }
@@ -92,7 +90,7 @@ export default function CopyCarter({
     mainLoop: for (let y = bounds.bottom - 1; y > bounds.top; y--) {
       for (let x = 0; x < canvas.width; x++) {
         if (canvasImageData.data[alphaAt(x, y)] !== 0) {
-          bounds.bottom = y;
+          bounds.bottom = y + 1;
           break mainLoop;
         }
       }
@@ -126,7 +124,6 @@ export default function CopyCarter({
   };
 
   const copyCanvas = async () => {
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const data = copyRef.current || (await getCopyData());
 
     // const start = performance.now();
